@@ -13,6 +13,7 @@
     "@better-auth/mongo-adapter": "^1.7.4",
     "better-auth": "^1.7.4",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.11.0",
     "cn": "^0.3.0",
     "lucide-react": "^1.46.0",
     "mongodb": "^7.6.0",
