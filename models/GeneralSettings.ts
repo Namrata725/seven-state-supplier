@@ -1,10 +1,12 @@
 import mongoose, { Schema, type Model } from "mongoose";
 
 export interface IGeneralSettings {
+    key: string;
   organizationName: string;
   slogan: string;
   aboutShort: string;
   aboutLong: string;
+
 
   contact: {
     phones: string[];
@@ -32,6 +34,13 @@ export interface IGeneralSettings {
 
 const generalSettingsSchema = new Schema<IGeneralSettings>(
   {
+    key: {
+    type: String,
+    required: true,
+    unique: true,
+    default: "general",
+    immutable: true,
+    },
     organizationName: {
       type: String,
       required: true,
