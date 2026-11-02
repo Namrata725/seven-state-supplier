@@ -1,7 +1,7 @@
 import mongoose, { Schema, type Model } from "mongoose";
 
 export interface IGeneralSettings {
-    key: string;
+  key: string;
   organizationName: string;
   slogan: string;
   aboutShort: string;
@@ -41,6 +41,7 @@ const generalSettingsSchema = new Schema<IGeneralSettings>(
     default: "general",
     immutable: true,
     },
+    
     organizationName: {
       type: String,
       required: true,

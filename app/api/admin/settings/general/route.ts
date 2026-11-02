@@ -49,36 +49,36 @@ async function requireSuperAdmin() {
 // get : fetch general settings document
 // this function does not create or modify database
 
-export async function GET() {
-  try {
-    const authResult = await requireSuperAdmin();
+// export async function GET() {
+//   try {
+//     const authResult = await requireSuperAdmin();
 
-    if ("response" in authResult) {
-      return authResult.response;
-    }
+//     if ("response" in authResult) {
+//       return authResult.response;
+//     }
 
-    await connectDB();
+//     await connectDB();
 
-    const settings = await GeneralSettings.findOne({
-      key: SETTINGS_KEY,
-    }).lean();
+//     const settings = await GeneralSettings.findOne({
+//       key: SETTINGS_KEY,
+//     }).lean();
 
-    return NextResponse.json({
-      success: true,
-      data: settings,
-    });
-  } catch (error) {
-    console.error("General Settings GET error:", error);
+//     return NextResponse.json({
+//       success: true,
+//       data: settings,
+//     });
+//   } catch (error) {
+//     console.error("General Settings GET error:", error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to fetch General Settings",
-      },
-      { status: 500 }
-    );
-  }
-}
+//     return NextResponse.json(
+//       {
+//         success: false,
+//         message: "Failed to fetch General Settings",
+//       },
+//       { status: 500 }
+//     );
+//   }
+// }
 
 
 // post : create or update general settings document
