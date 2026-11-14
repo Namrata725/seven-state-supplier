@@ -3,9 +3,15 @@ import { connectDB } from "@/lib/db";
 import {auth} from "@/lib/auth";
 import GeneralSettings from "@/models/GeneralSettings";
 import{headers} from "next/headers";
+import {
+  generalSettingsSchema,
+  updateGeneralSettingsSchema,
+} from "@/lib/validations/general-settings";
 
-import {generalSettingsSchema} from "@/lib/validations/general-settings";
+
 import { success } from "better-auth";
+
+
 
 // this is the fixed identifiers for our single general settings document
 
@@ -175,16 +181,79 @@ export async function PUT(request: Request) {
       return authResult.response;
     }
 
-    const body: unknown = await request.json();
+    // Broken JSON bhaye 500 hoina, 400 dine
+    const body: unknown = await request.json().catch(() => null);
 
-    const validation = generalSettingsSchema.safeParse(body);
+    if (typeof body !== "object" || body === null || Array.isArray(body)) {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON body" },
+        { status: 400 }
+      );
+    }
+
+    const validation = updateGeneralSettingsSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json(
         {
           success: false,
-          message: "Validation failed",
+          // Frontend toast ma "Validation failed" ko thau ma asli message dekhaucha
+          message: validation.error.issues[0]?.message ?? "Validation failed",
           errors: validation.error.flatten(),
+        },
+        { status: 400 }
+      );
+    }
+
+    // Frontend le actually pathayeko paths matra (Zod default le thapeko haina)
+    const sentPaths = new Set<string>();
+
+    function collectPaths(obj: Record<string, unknown>, prefix = "") {
+      for (const [key, value] of Object.entries(obj)) {
+        const path = prefix ? `${prefix}.${key}` : key;
+
+        if (
+          value !== null &&
+          typeof value === "object" &&
+          !Array.isArray(value)
+        ) {
+          collectPaths(value as Record<string, unknown>, path);
+        } else {
+          sentPaths.add(path);
+        }
+      }
+    }
+
+    collectPaths(body as Record<string, unknown>);
+
+    const updateData: Record<string, unknown> = {};
+
+    function flattenObject(obj: Record<string, unknown>, prefix = "") {
+      for (const [key, value] of Object.entries(obj)) {
+        if (value === undefined) continue;
+
+        const path = prefix ? `${prefix}.${key}` : key;
+
+        if (
+          value !== null &&
+          typeof value === "object" &&
+          !Array.isArray(value) &&
+          !(value instanceof Date)
+        ) {
+          flattenObject(value as Record<string, unknown>, path);
+        } else if (sentPaths.has(path)) {
+          updateData[path] = value;
+        }
+      }
+    }
+
+    flattenObject(validation.data as Record<string, unknown>);
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "No valid fields provided for update",
         },
         { status: 400 }
       );
@@ -194,7 +263,7 @@ export async function PUT(request: Request) {
 
     const settings = await GeneralSettings.findOneAndUpdate(
       { key: SETTINGS_KEY },
-      { $set: validation.data },
+      { $set: updateData },
       {
         new: true,
         runValidators: true,

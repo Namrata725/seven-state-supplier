@@ -55,7 +55,7 @@
   --popover-foreground: oklch(0.145 0 0);
 
   /* Primary: Orange */
-  --primary: oklch(0.705 0.213 47.6);
+  --primary: orangered;
   --primary-foreground: oklch(1 0 0);
 
   /* Secondary: Slate */
@@ -138,4 +138,44 @@
   --sidebar-accent-foreground: oklch(0.85 0.12 47.6);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.705 0.213 47.6);
+}
+
+/* Custom Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: orangered;
+}
+
+
+/* Completely remove scrollbar arrow buttons */
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:vertical:decrement,
+::-webkit-scrollbar-button:vertical:increment,
+::-webkit-scrollbar-button:horizontal:decrement,
+::-webkit-scrollbar-button:horizontal:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  appearance: none !important;
 }
