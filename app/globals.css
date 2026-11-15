@@ -140,13 +140,16 @@
   --sidebar-ring: oklch(0.705 0.213 47.6);
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar 
+/*
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--primary) transparent;
 }
+  */
 
-/* Chrome, Edge, Safari */
+/* Chrome, Edge, Safari 
+/* 
 *::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -165,8 +168,9 @@
   background: orangered;
 }
 
+*/
 
-/* Completely remove scrollbar arrow buttons */
+/* Completely remove scrollbar arrow buttons 
 ::-webkit-scrollbar-button,
 ::-webkit-scrollbar-button:single-button,
 ::-webkit-scrollbar-button:vertical:decrement,
@@ -178,4 +182,30 @@
   height: 0 !important;
   background: transparent !important;
   appearance: none !important;
+}
+
+*/
+
+/* Hide scrollbar inside settings tabs but preserve scrolling */
+.tab-content-scroll {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.tab-content-scroll::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Hide scrollbar but preserve scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }

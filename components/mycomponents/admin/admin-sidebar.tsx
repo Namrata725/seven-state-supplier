@@ -455,7 +455,7 @@ export function AdminSidebar({ role, name, email }: AdminSidebarProps) {
 
             <nav
               aria-label="Main navigation"
-              className="flex min-h-0 flex-1 flex-col items-center gap-2 overflow-y-auto py-4"
+              className="flex min-h-0 flex-1 flex-col items-center gap-2 overflow-y-auto scrollbar-hide py-4"
             >
               <DashboardLink
                 pathname={pathname}
@@ -497,7 +497,7 @@ export function AdminSidebar({ role, name, email }: AdminSidebarProps) {
 
             <nav
               aria-label="Workspace navigation"
-              className="min-h-0 flex-1 space-y-1 overflow-y-auto p-2"
+              className="min-h-0 flex-1 space-y-1 overflow-y-auto scrollbar-hide p-2"
             >
               <p className="px-3 pb-2 pt-2 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
                 Workspace
@@ -578,7 +578,7 @@ export function AdminSidebar({ role, name, email }: AdminSidebarProps) {
 
               <nav
                 aria-label="Main navigation"
-                className="flex min-h-0 flex-1 flex-col items-center gap-2 overflow-y-auto py-4"
+                className="flex min-h-0 flex-1 flex-col items-center gap-2 overflow-y-auto scrollbar-hide py-4"
               >
                 <DashboardLink
                   pathname={pathname}
@@ -640,7 +640,7 @@ export function AdminSidebar({ role, name, email }: AdminSidebarProps) {
 
               <nav
                 aria-label={`${focusedSection.title} navigation`}
-                className="min-h-0 flex-1 overflow-y-auto p-2"
+                className="min-h-0 flex-1 overflow-y-auto scrollbar-hide p-2"
               >
                 <p className="px-3 pb-2 pt-3 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
                   {focusedSection.title}
