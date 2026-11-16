@@ -265,7 +265,7 @@ export default function GeneralTab() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-60  items-center justify-center rounded-2xl border border-primary/20 bg-white shadow-sm">
+      <div className="flex min-h-60 items-center justify-center rounded-2xl border border-primary/20 bg-white shadow-sm">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="size-8 animate-spin text-primary" />
           <p className="text-sm font-medium text-slate-500">
@@ -277,21 +277,21 @@ export default function GeneralTab() {
   }
 
   return (
-    <div className="space-y-5 py-5 no-scrollbar">
+    <div className="space-y-4 py-3">
       {/* Form Card */}
       <div className="overflow-hidden rounded-2xl border border-primary/20 bg-white shadow-xl shadow-primary/10">
         {/* Card Header */}
-        <div className="flex items-center justify-between gap-3 border-b border-primary/15 bg-gradient-to-b from-primary/5 to-primary/10 px-5 py-4 md:px-7">
+        <div className="flex items-center justify-between gap-3 border-b border-primary/15 bg-gradient-to-b from-primary/5 to-primary/10 px-4 py-3 md:px-5">
           <div>
-            <h3 className="text-base font-semibold text-slate-800">
+            <h3 className="text-[13px] font-semibold text-slate-800">
               Basic Information
             </h3>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-[11px] text-slate-500">
               Fill in the details displayed across your store.
             </p>
           </div>
 
-          <span className="rounded-full border border-primary/20 bg-white px-3 py-1 text-xs font-medium text-primary">
+          <span className="rounded-full border border-primary/20 bg-white px-2.5 py-0.5 text-[11px] font-medium text-primary">
             {FIELD_CONFIG.length} Fields
           </span>
         </div>
@@ -303,7 +303,7 @@ export default function GeneralTab() {
 
             const Icon = field.icon;
 
-            const inputClass = `flex-1 rounded-xl border text-sm text-slate-700 placeholder:text-slate-400 transition-colors focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/20 ${
+            const inputClass = `flex-1 rounded-lg border text-[13px] text-slate-700 placeholder:text-slate-400 transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 ${
               isEditing
                 ? "border-primary/40 bg-white"
                 : "cursor-default border-primary/15 bg-primary/5"
@@ -312,12 +312,12 @@ export default function GeneralTab() {
             return (
               <div
                 key={field.name}
-                className="grid gap-3 px-5 py-5 transition-colors hover:bg-primary/[0.03] md:grid-cols-[250px_minmax(0,1fr)] md:gap-8 md:px-7"
+                className="grid gap-2 px-4 py-3.5 transition-colors hover:bg-primary/[0.03] md:grid-cols-[210px_minmax(0,1fr)] md:gap-6 md:px-5"
               >
                 {/* Label */}
                 <div className="flex min-w-0 items-start gap-3">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary/70 to-primary text-primary-foreground shadow-md shadow-primary/30">
-                    <Icon className="size-4" />
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-primary/70 to-primary text-primary-foreground shadow-sm shadow-primary/30">
+                    <Icon className="size-3.5" />
                   </div>
 
                   <div className="min-w-0 space-y-0.5">
@@ -328,7 +328,7 @@ export default function GeneralTab() {
                       {field.label}
                     </Label>
 
-                    <p className="text-xs leading-snug text-slate-500">
+                    <p className="text-[11px] leading-snug text-slate-500">
                       {field.description}
                     </p>
                   </div>
@@ -348,8 +348,8 @@ export default function GeneralTab() {
                         readOnly={!isEditing}
                         maxLength={field.maxLength}
                         rows={field.name === "aboutLong" ? 6 : 3}
-                        className={`no-scrollbar resize-y [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:!hidden ${
-                          field.name === "aboutLong" ? "min-h-36" : "min-h-20"
+                        className={`scrollbar-hide resize-y ${
+                          field.name === "aboutLong" ? "min-h-28" : "min-h-16"
                         } ${inputClass}`}
                       />
                     ) : (
@@ -362,7 +362,7 @@ export default function GeneralTab() {
                         placeholder={field.placeholder}
                         readOnly={!isEditing}
                         maxLength={field.maxLength}
-                        className={`h-11 ${inputClass}`}
+                        className={`h-9 ${inputClass}`}
                       />
                     )}
 
@@ -371,18 +371,18 @@ export default function GeneralTab() {
                         type="button"
                         variant="outline"
                         size="icon"
-                        className="size-11 shrink-0 rounded-xl border-primary/30 bg-white text-primary transition-all hover:-translate-y-0.5 hover:bg-primary/10 hover:text-primary"
+                        className="size-9 shrink-0 rounded-lg border-primary/30 bg-white text-primary transition-all hover:-translate-y-0.5 hover:bg-primary/10 hover:text-primary"
                         onClick={() => handleEdit(field.name)}
                         disabled={isSaving || isEditing}
                         aria-label={`Edit ${field.label}`}
                       >
-                        <Pencil className="size-4" />
+                        <Pencil className="size-3.5" />
                       </Button>
                     )}
                   </div>
 
                   {/* Character Counter */}
-                  <p className="mt-1.5 text-right text-[11px] tabular-nums text-slate-400">
+                  <p className="mt-1 text-right text-[10px] tabular-nums text-slate-400">
                     {form[field.name].length.toLocaleString()} /{" "}
                     {field.maxLength.toLocaleString()}
                   </p>
@@ -395,16 +395,16 @@ export default function GeneralTab() {
 
       {/* Save Actions */}
       {(isCreateMode || isDirty) && (
-        <div className="sticky bottom-3 z-10 flex flex-col justify-between gap-4 rounded-2xl border border-primary/30 bg-white/95 p-4 shadow-2xl shadow-primary/20 backdrop-blur-md sm:flex-row sm:items-center md:px-5">
+        <div className="sticky bottom-3 z-10 flex flex-col justify-between gap-3 rounded-xl border border-primary/30 bg-white/95 px-4 py-2.5 shadow-xl shadow-primary/20 backdrop-blur-md sm:flex-row sm:items-center md:px-5">
           <div className="flex items-center gap-3">
             <span className="size-2.5 shrink-0 animate-pulse rounded-full bg-primary" />
 
             <div className="space-y-0.5">
-              <p className="text-sm font-bold text-slate-800">
+              <p className="text-[13px] font-bold text-slate-800">
                 {isCreateMode ? "Create settings" : "Unsaved changes"}
               </p>
 
-              <p className="text-xs text-slate-500">
+              <p className="text-[11px] text-slate-500">
                 {isCreateMode
                   ? "Add your organization's information."
                   : "Your changes haven't been saved yet."}
@@ -417,7 +417,7 @@ export default function GeneralTab() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-primary/30 bg-white text-slate-600 hover:bg-primary/10 hover:text-primary sm:w-auto"
+                className="h-9 w-full border-primary/30 bg-white text-[13px] text-slate-600 hover:bg-primary/10 hover:text-primary sm:w-auto"
                 onClick={handleDiscard}
                 disabled={isSaving}
               >
@@ -430,7 +430,7 @@ export default function GeneralTab() {
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="w-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:bg-primary/90 sm:w-auto sm:min-w-36"
+              className="h-9 w-full bg-primary text-[13px] text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:bg-primary/90 sm:w-auto sm:min-w-36"
             >
               {isSaving ? (
                 <Loader2 className="mr-2 size-4 animate-spin" />

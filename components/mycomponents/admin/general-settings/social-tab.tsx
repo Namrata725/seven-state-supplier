@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { IconType } from "react-icons";
-import { Globe, Pencil, Save, X, Loader2, Link2 } from "lucide-react";
+import { Globe, Pencil, Save, X, Loader2 } from "lucide-react";
 import {
   FaFacebookF,
   FaInstagram,
@@ -258,9 +258,9 @@ export default function SocialTab() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-60 items-center justify-center rounded-2xl border border-orange-100 bg-white">
+      <div className="flex min-h-60 items-center justify-center rounded-2xl border border-primary/20 bg-white shadow-sm">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="size-8 animate-spin text-orange-500" />
+          <Loader2 className="size-8 animate-spin text-primary" />
           <p className="text-sm font-medium text-slate-500">
             Loading social settings...
           </p>
@@ -270,24 +270,27 @@ export default function SocialTab() {
   }
 
   return (
-    <div className="space-y-6 pb-4">
-      <div className="mt-8 rounded-2xl border border-orange-100 bg-white p-4 shadow-sm md:p-6">
-        <div className="mb-6 flex items-center justify-between gap-3 border-b border-orange-100 pb-4">
+    <div className="space-y-4 py-3">
+      {/* Form Card */}
+      <div className="overflow-hidden rounded-2xl border border-primary/20 bg-white shadow-xl shadow-primary/10">
+        {/* Card Header */}
+        <div className="flex items-center justify-between gap-3 border-b border-primary/15 bg-gradient-to-b from-primary/5 to-primary/10 px-4 py-3 md:px-5">
           <div>
-            <h3 className="font-semibold text-slate-800">
-              Social Media & Links
+            <h3 className="text-sm font-semibold text-slate-800">
+              Social Media &amp; Links
             </h3>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-0.5 text-[11px] text-slate-500">
               Manage your website and social media profile links.
             </p>
           </div>
 
-          <span className="rounded-lg bg-orange-50 px-3 py-1.5 text-xs font-semibold text-orange-700">
+          <span className="rounded-full border border-primary/20 bg-white px-2.5 py-0.5 text-[11px] font-medium text-primary">
             {FIELD_CONFIG.length} Fields
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        {/* Fields: 2 columns on large screens */}
+        <div className="grid gap-px bg-primary/10 lg:grid-cols-2">
           {FIELD_CONFIG.map((field) => {
             const isEditing = editing.includes(field.name);
             const Icon = field.icon;
@@ -295,83 +298,91 @@ export default function SocialTab() {
             return (
               <div
                 key={field.name}
-                className="min-w-0 rounded-xl border border-orange-100 bg-orange-50/30 p-4 transition-colors hover:border-orange-200"
+                className="min-w-0 bg-white px-4 py-3.5 transition-colors hover:bg-primary/[0.03] md:px-5 lg:odd:last:col-span-2"
               >
-                <div className="mb-4 flex items-start justify-between gap-3">
-                  <div className="flex min-w-0 items-start gap-3">
-                    <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-orange-100">
-                      <Icon className="size-4 text-orange-600" />
-                    </div>
-
-                    <div className="min-w-0 space-y-1">
-                      <Label
-                        htmlFor={field.name}
-                        className="text-sm font-semibold text-slate-800"
-                      >
-                        {field.label}
-                      </Label>
-
-                      <p className="text-xs leading-relaxed text-slate-500">
-                        {field.description}
-                      </p>
-                    </div>
+                {/* Label */}
+                <div className="mb-2.5 flex min-w-0 items-center gap-3">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-primary/70 to-primary text-primary-foreground shadow-sm shadow-primary/30">
+                    <Icon className="size-3.5" />
                   </div>
+
+                  <div className="min-w-0 space-y-0.5">
+                    <Label
+                      htmlFor={field.name}
+                      className="text-[13px] font-semibold text-slate-800"
+                    >
+                      {field.label}
+                    </Label>
+
+                    <p className="truncate text-[11px] leading-snug text-slate-500">
+                      {field.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Input + edit button */}
+                <div className="flex items-start gap-2">
+                  <Input
+                    id={field.name}
+                    type="url"
+                    value={form[field.name]}
+                    onChange={(event) =>
+                      handleChange(field.name, event.target.value)
+                    }
+                    placeholder={field.placeholder}
+                    readOnly={!isEditing}
+                    maxLength={2048}
+                    className={`h-9 flex-1 rounded-lg border text-[13px] text-slate-700 placeholder:text-slate-400 transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 ${
+                      isEditing
+                        ? "border-primary/40 bg-white"
+                        : "cursor-default border-primary/15 bg-primary/5"
+                    }`}
+                  />
 
                   <Button
                     type="button"
                     variant="outline"
                     size="icon"
-                    className="size-9 shrink-0 border-orange-200 bg-white text-orange-600 hover:bg-orange-100"
+                    className="size-9 shrink-0 rounded-lg border-primary/30 bg-white text-primary transition-all hover:-translate-y-0.5 hover:bg-primary/10 hover:text-primary"
                     onClick={() => handleEdit(field.name)}
                     disabled={isSaving || isEditing}
                     aria-label={`Edit ${field.label}`}
                   >
-                    <Pencil className="size-4" />
+                    <Pencil className="size-3.5" />
                   </Button>
                 </div>
 
-                <Input
-                  id={field.name}
-                  type="url"
-                  value={form[field.name]}
-                  onChange={(event) =>
-                    handleChange(field.name, event.target.value)
-                  }
-                  placeholder={field.placeholder}
-                  readOnly={!isEditing}
-                  maxLength={2048}
-                  className="h-11 rounded-lg border-orange-100 bg-white text-sm text-slate-700 placeholder:text-slate-400 read-only:cursor-default read-only:bg-orange-50/50 focus-visible:border-orange-400 focus-visible:ring-orange-200"
-                />
-
-                <div className="mt-2 flex items-center justify-between gap-2">
-                  <span className="text-[11px] text-slate-400">
-                    {isEditing ? "Editing enabled" : "Read only"}
-                  </span>
-
-                  <span className="text-xs tabular-nums text-slate-400">
-                    {form[field.name].length.toLocaleString()} / 2,048
-                  </span>
-                </div>
+                {/* Character Counter */}
+                <p className="mt-1 text-right text-[10px] tabular-nums text-slate-400">
+                  {form[field.name].length.toLocaleString()} / 2,048
+                </p>
               </div>
             );
           })}
         </div>
       </div>
 
+      {/* Save Actions */}
       {isDirty && (
-        <div className="sticky bottom-3 z-10 flex flex-col justify-between gap-4 rounded-2xl border border-orange-200 bg-white/95 p-4 shadow-lg backdrop-blur-md sm:flex-row sm:items-center md:px-5">
-          <div className="space-y-1">
-            <p className="text-sm font-bold text-slate-800">Unsaved changes</p>
-            <p className="text-xs text-slate-500">
-              Your social links haven't been saved yet.
-            </p>
+        <div className="sticky bottom-3 z-10 flex flex-col justify-between gap-3 rounded-xl border border-primary/30 bg-white/95 px-4 py-2.5 shadow-xl shadow-primary/20 backdrop-blur-md sm:flex-row sm:items-center md:px-5">
+          <div className="flex items-center gap-3">
+            <span className="size-2.5 shrink-0 animate-pulse rounded-full bg-primary" />
+
+            <div className="space-y-0.5">
+              <p className="text-[13px] font-bold text-slate-800">
+                Unsaved changes
+              </p>
+              <p className="text-[11px] text-slate-500">
+                Your social links haven&apos;t been saved yet.
+              </p>
+            </div>
           </div>
 
-          <div className="flex w-full flex-col-reverse gap-2 sm:w-auto sm:flex-row">
+          <div className="flex w-full flex-col-reverse gap-2 sm:w-auto sm:flex-row sm:items-center">
             <Button
               type="button"
               variant="outline"
-              className="w-full border-orange-200 bg-white text-slate-600 hover:bg-orange-50 sm:w-auto"
+              className="h-9 w-full border-primary/30 bg-white text-[13px] text-slate-600 hover:bg-primary/10 hover:text-primary sm:w-auto"
               onClick={handleDiscard}
               disabled={isSaving}
             >
@@ -383,7 +394,7 @@ export default function SocialTab() {
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="w-full bg-orange-500 text-white hover:bg-orange-600 sm:min-w-36 sm:w-auto"
+              className="h-9 w-full bg-primary text-[13px] text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:bg-primary/90 sm:w-auto sm:min-w-36"
             >
               {isSaving ? (
                 <Loader2 className="mr-2 size-4 animate-spin" />
